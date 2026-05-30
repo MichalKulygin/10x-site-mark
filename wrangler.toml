@@ -1,0 +1,7 @@
+name = "10x-site-mark"
+compatibility_date = "2026-05-08"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = "dist"
+
+[observability]
+enabled = true
