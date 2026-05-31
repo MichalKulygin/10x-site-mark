@@ -54,7 +54,7 @@ Koszt dziś: czas stracony na ręczną dokumentację + ryzyko utraty lub przekł
 ### Guardrails
 - Zero utraty danych rysunków — zapisany rysunek jest zawsze wierną kopią tego co użytkownik narysował
 - Import nowego pliku CAD nie nadpisuje ani nie kasuje wcześniej zapisanych rysunków
-- Aplikacja umożliwia rysowanie przy braku lub słabym połączeniu internetowym (teren)
+- Aplikacja działa poprawnie przy stabilnym połączeniu z internetem
 
 ## Timeline acknowledgment
 
@@ -76,8 +76,8 @@ Kontekst: parsowanie/renderowanie DWG/DXF w przeglądarce to główne ryzyko tec
 - FR-003: Wykonawca może tworzyć rysunek na wybranej rzutni za pomocą prostych narzędzi (linia, punkt, tekst). Priority: must-have
   > Sokrates: Kontrargument rozważony: "Rysowanie na canvas CAD jest trudniejsze niż na pustym płótnie — może zwielokrotnić czas do MVP." Rezolucja: FR pozostaje; toolset zawężony do minimum (linia, punkt, tekst) aby ograniczyć zakres.
 
-- FR-004: Wykonawca może zapisywać i odczytywać swoje rysunki (z lokalnym cache dla trybu offline). Priority: must-have
-  > Sokrates: Kontrargument rozważony: "Odczyt w terenie bez internetu wymaga lokalnego cache — to dodatkowa złożoność." Rezolucja: FR pozostaje; offline jest guardrailem z Fazy 3 — złożoność jest świadomie akceptowana.
+- FR-004: Wykonawca może zapisywać i odczytywać swoje rysunki. Priority: must-have
+  > Sokrates: Kontrargument rozważony: "Odczyt w terenie bez internetu wymaga lokalnego cache." Rezolucja: tryb offline odroczone do v2; MVP wymaga połączenia z internetem.
 
 ### Konta i dostęp
 
@@ -119,7 +119,7 @@ Plik DXF jest wyłącznie podkładem (read-only): aplikacja nigdy go nie modyfik
 
 ## Non-Functional Requirements
 
-- NFR-01: Aplikacja umożliwia tworzenie i zapis rysunków przy braku lub słabym połączeniu internetowym (synchronizacja następuje po odzyskaniu połączenia). Cel: działanie w terenie bez gwarancji zasięgu.
+- NFR-01: Aplikacja działa poprawnie przy stabilnym połączeniu z internetem (tryb offline odroczone do v2).
 - NFR-02: UI działa poprawnie na urządzeniach dotykowych (tablet, telefon) — gesty rysowania responsywne na ekranie dotykowym.
 - NFR-03: Wykonawca ma dostęp wyłącznie do własnych zapisów — izolacja danych między kontami jest bezwzględna.
 
@@ -131,6 +131,7 @@ Plik DXF jest wyłącznie podkładem (read-only): aplikacja nigdy go nie modyfik
 - Aplikacja mobilna / natywna — tylko web; brak natywnej aplikacji iOS/Android w MVP.
 - Kreator nowych typów obsługiwanych prac/zapisów — własne obiekty z formularzami to zakres daleko poza MVP.
 - Modyfikacja pliku DXF — aplikacja nie zapisuje żadnych zmian do pliku DXF; plik źródłowy jest nienaruszalny.
+- Tryb offline / PWA — działanie bez internetu (service worker, IndexedDB, background sync) odroczone do v2.
 
 ## Quality cross-check
 

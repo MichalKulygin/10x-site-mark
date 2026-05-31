@@ -44,7 +44,7 @@ Pracownik grupy technicznej (przeglądy, pomiary, instalacje) po wykonaniu pracy
 ### Guardrails
 - Zapisany rysunek jest zawsze wierną kopią tego, co użytkownik narysował — zero rozbieżności
 - Import nowego pliku DXF nie nadpisuje ani nie kasuje wcześniej zapisanych rysunków
-- Aplikacja pozostaje użyteczna do tworzenia i zapisu rysunków przy braku połączenia z internetem
+- Aplikacja działa poprawnie przy stabilnym połączeniu z internetem
 
 ## User Stories
 
@@ -74,8 +74,8 @@ Pracownik grupy technicznej (przeglądy, pomiary, instalacje) po wykonaniu pracy
 - FR-003: Wykonawca może tworzyć rysunek na wybranej rzutni za pomocą prostych narzędzi (linia, punkt, tekst). Priority: must-have
   > Sokrates: Kontrargument rozważony: "Rysowanie na canvas CAD jest trudniejsze niż na pustym płótnie — może zwielokrotnić czas do MVP." Rezolucja: FR pozostaje; toolset zawężony do minimum (linia, punkt, tekst) aby ograniczyć zakres.
 
-- FR-004: Wykonawca może zapisywać i odczytywać swoje rysunki bez aktywnego połączenia z internetem. Priority: must-have
-  > Sokrates: Kontrargument rozważony: "Tryb offline wymaga dodatkowego rozwiązania dla persystencji lokalnej — to świadomie akceptowana złożoność." Rezolucja: FR pozostaje; tryb offline jest guardrailem z fazy discovery.
+- FR-004: Wykonawca może zapisywać i odczytywać swoje rysunki. Priority: must-have
+  > Sokrates: Kontrargument rozważony: "Tryb offline wymaga dodatkowego rozwiązania dla persystencji lokalnej." Rezolucja: tryb offline odroczone do v2; MVP wymaga połączenia z internetem.
 
 ### Konta i dostęp
 
@@ -87,7 +87,7 @@ Pracownik grupy technicznej (przeglądy, pomiary, instalacje) po wykonaniu pracy
 
 ## Non-Functional Requirements
 
-- NFR-01: Aplikacja pozostaje w pełni użyteczna (tworzenie i zapis rysunków) przy braku lub słabym połączeniu z internetem; zapisy stają się widoczne w systemie po odzyskaniu łączności.
+- NFR-01: Aplikacja działa poprawnie przy stabilnym połączeniu z internetem (wymaganie offline odroczone do v2).
 - NFR-02: Interfejs działa poprawnie na urządzeniach z ekranem dotykowym (tablet, telefon) — rysowanie i nawigacja nie wymagają myszy ani klawiatury.
 - NFR-03: Wykonawca ma dostęp wyłącznie do własnych zapisów — dane różnych kont są od siebie izolowane.
 
@@ -123,6 +123,7 @@ Niezautoryzowany użytkownik nie ma dostępu do żadnych danych aplikacji.
 - **Aplikacja mobilna / natywna:** Tylko web; brak natywnej aplikacji iOS/Android w MVP.
 - **Kreator nowych typów prac/zapisów:** Własne obiekty z formularzami leżą poza zakresem MVP.
 - **Modyfikacja pliku DXF:** Aplikacja nie zapisuje żadnych zmian do pliku DXF — plik źródłowy jest nienaruszalny.
+- **Tryb offline / PWA:** Działanie bez internetu (service worker, IndexedDB, background sync) odroczone do v2.
 
 ## Open Questions
 
