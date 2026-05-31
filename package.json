@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && node scripts/fix-wrangler.mjs",
+    "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
     "lint": "eslint .",
@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.8",
-    "@astrojs/cloudflare": "^13.5.0",
+    "@astrojs/cloudflare": "13.5.0",
     "@astrojs/react": "^5.0.4",
     "@astrojs/sitemap": "^3.7.2",
     "@eslint/config-helpers": "^0.6.0",

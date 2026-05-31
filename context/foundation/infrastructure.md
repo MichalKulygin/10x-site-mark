@@ -93,8 +93,8 @@ Solo dev zostawił deploy na Cloudflare Pages z hackiem `fix-wrangler.mjs`, bo �
 Migracja z obecnego deployu na Pages do wspieranej ścieżki Workers (ten sam adapter v13, ten sam runtime). Zweryfikowane względem `@astrojs/cloudflare` v13.5 i Astro 6 w stacku.
 
 1. **Usuń obejście Pages**: skasuj `scripts/fix-wrangler.mjs` i przywróć w `package.json` `"build": "astro build"`.
-2. **Potwierdź output jednym czystym buildem**: `npm run build`, a następnie sprawdź dokładną ścieżkę entry workera (zwykle `dist/_worker.js/index.js`) — obecny `dist/` jest zabrudzony przez hack, więc czysty build jest źródłem prawdy.
-3. **Przepisz `wrangler.toml` na format Workers**: usuń `pages_build_output_dir`, dodaj `main = "./dist/_worker.js/index.js"` oraz blok `[assets]` z `directory = "./dist"` i `binding = "ASSETS"`. Zachowaj `compatibility_flags = ["nodejs_compat"]` i `[observability]`.
+2. **Potwierdź output jednym czystym buildem**: `rm -rf dist .wrangler/deploy && npm run build`. Adapter v13 (przez `@cloudflare/vite-plugin`) emituje natywnie `dist/server/entry.mjs` (worker entry), `dist/client/` (assety) i `dist/server/wrangler.json` z policzonymi `main`/`assets`.
+3. **Wyczyść `wrangler.toml`**: usuń **tylko** `pages_build_output_dir`. **Nie dodawaj** `main` ani `[assets]` — adapter liczy je sam i wpisuje do generowanego `dist/server/wrangler.json`; ręczne ustawienie grozi błędną ścieżką. Zachowaj `name`, `compatibility_date`, `compatibility_flags = ["nodejs_compat"]` i `[observability]`.
 4. **`astro.config.mjs` zostaje bez zmian** — `cloudflare({ imageService: "passthrough" })` i `session: { driver: "memory" }` to już poprawna konfiguracja dla Workers.
 5. **Ustaw sekrety na Workers**: `npx wrangler secret put SUPABASE_URL` i `npx wrangler secret put SUPABASE_KEY` (zamiast zmiennych w panelu Pages).
 6. **Deploy + auto-deploy**: `npx wrangler deploy` ręcznie; dla auto-deploy-on-merge podłącz repo przez **Workers Builds** (git-integracja Cloudflare, GA — bezpośredni odpowiednik Pages CI, zero zmian w GitHub Actions) lub dodaj krok `cloudflare/wrangler-action` do `.github/workflows/ci.yml`.
