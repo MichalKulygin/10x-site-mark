@@ -67,7 +67,7 @@ npm run dev
 │ ├── components/ # UI components (Astro & React)
 │ └── assets/ # Static assets
 ├── public/ # Public assets
-├── wrangler.jsonc # Cloudflare Workers config
+├── wrangler.toml # Cloudflare Workers config
 ```
 
 ## Supabase Configuration
@@ -168,7 +168,7 @@ Set `SUPABASE_URL` and `SUPABASE_KEY` as secrets in your Cloudflare dashboard or
 
 ## CI
 
-GitHub Actions runs lint + build on every push and PR to `master`. Configure `SUPABASE_URL` and `SUPABASE_KEY` as repository secrets in GitHub for the build step.
+GitHub Actions runs lint + build on every push and PR to `main`, and deploys to Cloudflare Workers (`wrangler deploy`) on push to `main`. Configure `SUPABASE_URL`, `SUPABASE_KEY`, and `CLOUDFLARE_API_TOKEN` as repository secrets in GitHub.
 
 ## License
 

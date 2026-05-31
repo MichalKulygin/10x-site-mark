@@ -1,11 +1,11 @@
 # Repository Guidelines
 
-10x-site-mark is an Astro 6 SSR app (React 19 islands, Tailwind 4, Supabase auth, shadcn/ui) deployed to Cloudflare Pages. See `@CLAUDE.md` for full architecture and `@README.md` for the stack overview.
+10x-site-mark is an Astro 6 SSR app (React 19 islands, Tailwind 4, Supabase auth, shadcn/ui) deployed to Cloudflare Workers. See `@CLAUDE.md` for full architecture and `@README.md` for the stack overview.
 
 ## Hard rules
 
 - **API routes must export `const prerender = false`.** The app is full SSR (`output: "server"`); a route without it is statically prerendered and breaks at runtime.
-- **`npm run build` runs `scripts/fix-wrangler.mjs` afterward — never bypass it.** That script restructures `dist/` for Cloudflare Pages (`_worker.js` + rewritten `wrangler.json`) to work around `@astrojs/cloudflare` v13. Deploying raw `dist/` fails. Don't "simplify" or hand-edit the generated `dist/server/wrangler.json`. See `@scripts/fix-wrangler.mjs`.
+- **Deploy targets Cloudflare Workers, not Pages** (`@astrojs/cloudflare` v13 dropped Pages). `npm run build` is just `astro build`; the adapter emits `dist/server/entry.mjs` plus a generated `dist/server/wrangler.json` (computed `main`/`assets`) discovered via `.wrangler/deploy/config.json`. Deploy with `wrangler deploy`. Do NOT add `main`, `[assets]`, or `pages_build_output_dir` to `wrangler.toml` — the adapter computes them.
 - **Read Supabase secrets via `astro:env/server`** (`SUPABASE_URL`, `SUPABASE_KEY`), declared in `astro.config.mjs` `env.schema` — not `import.meta.env`.
 - **Enable RLS on every new Supabase table** with granular per-operation, per-role policies.
 
@@ -19,7 +19,7 @@
 
 ## Commands
 
-Scripts are defined in `@package.json`. Note: `npm run build` also runs `scripts/fix-wrangler.mjs` afterward (see Hard rules); `dev`, `lint`, and `format` are standard.
+Scripts are defined in `@package.json` (`dev`, `build` = `astro build`, `lint`, `format`). Deploy with `wrangler deploy` (see Hard rules).
 
 ## Coding Conventions
 
@@ -30,5 +30,5 @@ Scripts are defined in `@package.json`. Note: `npm run build` also runs `scripts
 
 ## Commit & CI
 
-Conventional Commits (`feat:`, `fix:`, `chore:`, `docs:`). Pre-commit hook runs `eslint --fix` + `prettier --write` (husky + lint-staged). CI (`.github/workflows/ci.yml`) runs lint + build on push/PR to `main` and requires `SUPABASE_URL`/`SUPABASE_KEY` secrets. No test suite is configured yet.
+Conventional Commits (`feat:`, `fix:`, `chore:`, `docs:`). Pre-commit hook runs `eslint --fix` + `prettier --write` (husky + lint-staged). CI (`.github/workflows/ci.yml`): `ci` job lints + builds on push/PR to `main`; `deploy` job runs `wrangler deploy` on push to `main` (needs `CLOUDFLARE_API_TOKEN` + `SUPABASE_*` secrets). No test suite is configured yet.
     

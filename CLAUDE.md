@@ -51,7 +51,7 @@ Full server-side rendering (`output: "server"` in astro.config.mjs). All pages a
 
 ## CI
 
-GitHub Actions workflow (`.github/workflows/ci.yml`) runs lint + build on every push and PR to master. Requires `SUPABASE_URL` and `SUPABASE_KEY` repository secrets for the build step.
+GitHub Actions workflow (`.github/workflows/ci.yml`): the `ci` job runs lint + build on every push and PR to `main`; the `deploy` job runs `wrangler deploy` to Cloudflare Workers on push to `main`. Requires `SUPABASE_URL`, `SUPABASE_KEY`, and `CLOUDFLARE_API_TOKEN` repository secrets.
 
 <!-- BEGIN @przeprogramowani/10x-cli -->
 
