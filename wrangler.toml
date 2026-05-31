@@ -1,4 +1,5 @@
 name = "10x-site-mark"
+account_id = "beb684660c73b323029abd1810c5db6b"
 compatibility_date = "2026-05-08"
 compatibility_flags = ["nodejs_compat"]
 
